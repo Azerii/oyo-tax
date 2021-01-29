@@ -19,9 +19,9 @@ a:hover {
   text-decoration: none;
 }
 
-::placeholder {
+/* ::placeholder {
   text-transform: capitalize !important;
-}
+} */
 
 select,
 button {

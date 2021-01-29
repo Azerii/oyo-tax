@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Container from '../components/Container';
 import Navbar from '../components/Navbar';
 import theme from '../theme';
+import wavy_line from '../assets/global/wavy_line.svg';
 
 const Caption = styled.div`
   display: flex;
@@ -17,9 +18,22 @@ const Caption = styled.div`
 
     .heading {
       max-width: 80%;
-      font-size: 350%;
+      font-size: 300%;
       font-weight: 600;
       margin-bottom: 1rem;
+
+      .underlined {
+        display: inline-block;
+        position: relative;
+
+        .wave {
+          position: absolute;
+          bottom: -0.5rem;
+          left: 0;
+          // height: 0.5rem;
+          width: 100%;
+        }
+      }
     }
 
     .subheading {
@@ -41,8 +55,10 @@ const Caption = styled.div`
   }
 
   .captionMedia {
+    postion: relative;
     width: 45%;
-    height: 25rem;
+    height: 0;
+    padding-top: 35%;
     background-color: #333333;
   }
 `;
@@ -54,7 +70,13 @@ const Landing = () => {
       <Container>
         <Caption>
           <div className="captionText">
-            <p className="heading">Pay your tax and let’s grow together</p>
+            <p className="heading">
+              Pay{' '}
+              <span className="underlined">
+                your tax <img className="wave" src={wavy_line} alt="" />
+              </span>{' '}
+              and let’s grow together
+            </p>
             <p className="subheading">
               Fugiat anim adipisicing sint adipisicing. Dolore eiusmod ut
               aliquip cupidatat eu nulla. Sint sunt non aliquip tempor ipsum

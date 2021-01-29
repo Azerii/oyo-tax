@@ -6,7 +6,7 @@ import Container from './Container';
 
 const Wrapper = styled.div`
   width: 100vw;
-  padding: 1rem 0;
+  padding: 0.5rem 0;
   background-color: ${theme.colors.light};
 
   .inner {
@@ -21,7 +21,8 @@ const Wrapper = styled.div`
   }
 `;
 
-const Brand = styled.div`
+const Brand = styled.a`
+  display: block;
   width: 10%;
 
   .logo {
@@ -50,7 +51,7 @@ const AuthLinks = styled.div`
     display: inline-block;
     padding: 0.5rem 1.5rem;
     font-size: 100%;
-    border-radius: 0.1rem;
+    border-radius: 0.2rem;
 
     &.login {
       color: ${theme.colors.primary};
@@ -67,12 +68,7 @@ const AuthLinks = styled.div`
   }
 `;
 
-interface LinkItem {
-  title: string;
-  href: string;
-}
-
-const linkItems: LinkItem[] = [
+const linkItems = [
   {
     title: 'Home',
     href: '/'
@@ -99,19 +95,19 @@ const Navbar = () => {
   return (
     <Wrapper>
       <Container className="inner">
-        <Brand>
+        <Brand href="/">
           <img src={logo} alt="" className="logo" />
         </Brand>
         <div className="navBody">
           <Links>
             {linkItems.map((item) => (
               <NavLink key={item.title}>
-                <a href={item.href}>{item.title}</a>
+                <a href="/">{item.title}</a>
               </NavLink>
             ))}
           </Links>
           <AuthLinks>
-            <a href="/login" className="login">
+            <a href="/" className="login">
               Log In
             </a>
             <a href="/register" className="register">
