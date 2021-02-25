@@ -155,10 +155,12 @@ const SelectView = ({
                   />
                 </div>
               )}
-              <p className="createId">
-                If you don't have an ID number,{' '}
-                <a href="/payment/create-payer-id/1">create here</a>
-              </p>
+              {payerId && (
+                <p className="createId">
+                  If you don't have an ID number,{' '}
+                  <a href="/payment/create-payer-id/1">create here</a>
+                </p>
+              )}
               <div className="btnWrapper">
                 {payerId ? (
                   <button type="submit">Done</button>

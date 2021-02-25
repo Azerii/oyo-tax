@@ -20,7 +20,7 @@ const Wrapper = styled.div`
     background-image: url(../assets/global/background_cityscape.png);
     z-index: 0;
 
-    .foreground {
+    .backgroundImg {
       position: absolute;
       top: 0;
       left: 0;
@@ -42,7 +42,7 @@ const Layout = ({ bg, children }) => {
       <Wrapper>
         {bg && (
           <div className="background">
-            <img className="foreground" src={background_cityscape} alt="" />
+            <img className="backgroundImg" src={background_cityscape} alt="" />
           </div>
         )}
         <Container className="content">{children}</Container>
