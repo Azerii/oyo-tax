@@ -15,6 +15,10 @@ const Grid = styled.div`
     &.grey {
       color: ${theme.colors.grey};
     }
+
+    .required {
+      color: ${theme.colors.red};
+    }
   }
 
   input {

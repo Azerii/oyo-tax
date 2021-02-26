@@ -1,7 +1,7 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import theme from '../../theme';
+// import theme from '../../theme';
 import options from '../../assets/dashboard/options.svg';
 
 const Wrapper = styled.div`
@@ -53,21 +53,16 @@ const Table = styled.table`
   }
 `;
 
-const tableHeaders = [
-  'Name',
-  `Tax Payer's ID`,
-  'Basic Salary',
-  'monthly salary'
-];
+const tableHeaders = ['Name', `Tax Payer's ID`, 'Basic Salary', 'monthly tax'];
 
-const model = ['name', 'payerID', 'basicSalary', 'monthlySalary'];
+const model = ['name', 'payerID', 'basicSalary', 'monthlyTax'];
 
 const tableBody = [
   {
     name: 'Jones Dermot',
     payerID: '089778900078',
     basicSalary: 'N500,000',
-    monthlySalary: 'N1,000,000'
+    monthlyTax: 'N10,000'
   }
 ];
 

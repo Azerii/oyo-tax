@@ -116,6 +116,27 @@ const SelectView = ({
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    let payerDetails;
+
+    const payerIdInput = document.querySelector('input[name="payerId"]');
+
+    const payerId = payerIdInput ? payerIdInput.value : '88975655';
+
+    if (payerIdInput) {
+      if (localStorage.payerDetails) {
+        const detailsObj = JSON.parse(localStorage.payerDetails);
+        payerDetails = {
+          ...detailsObj,
+          payerId
+        };
+      }
+      payerDetails = {
+        payerId
+      };
+
+      localStorage.setItem('payerDetails', JSON.stringify(payerDetails));
+    }
+
     history.push(target);
   };
 
@@ -141,7 +162,9 @@ const SelectView = ({
                   <select name={inputName} id="select">
                     <option value="">e.g {dataList[0]}</option>
                     {dataList.map((item) => (
-                      <option key={item} value={item} />
+                      <option key={item} value={item}>
+                        {item}
+                      </option>
                     ))}
                   </select>
                 </div>

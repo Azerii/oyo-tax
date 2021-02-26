@@ -107,7 +107,7 @@ const Navbar = () => {
             ))}
           </Links>
           <AuthLinks>
-            <a href="/" className="login">
+            <a href="/login" className="login">
               Log In
             </a>
             <a href="/register" className="register">

@@ -338,6 +338,10 @@ const Register = () => {
                 <input type="text" name="name" />
               </Grid>
               <Grid>
+                <p className="label">BVN</p>
+                <input type="text" name="bvn" />
+              </Grid>
+              <Grid>
                 <p className="label">designation</p>
                 <input type="text" name="designation" />
               </Grid>
