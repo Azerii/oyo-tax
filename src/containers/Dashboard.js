@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Sidebar from '../components/dashboard/Sidebar';
 import theme from '../theme';
@@ -173,6 +173,34 @@ const FormModal = styled.div`
 `;
 
 const Dashboard = () => {
+  const [employees, setEmployees] = useState(
+    localStorage.employees ? JSON.parse(localStorage.employees) : []
+  );
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    let employeesArr;
+
+    const employeeDetails = {
+      name: document.querySelector('input[name="name"]').value || 'NIL',
+      payerID: document.querySelector('input[name="payerID"]').value || 'NIL',
+      basicSalary:
+        document.querySelector('input[name="basicSalary"]').value || 'NIL',
+      monthlyTax:
+        document.querySelector('input[name="monthlyTax"]').value || 'NIL'
+    };
+
+    if (localStorage.employees) {
+      employeesArr = JSON.parse(localStorage.employees);
+    } else {
+      employeesArr = [];
+    }
+
+    employeesArr.push(employeeDetails);
+    setEmployees(employeesArr);
+    localStorage.setItem('employees', JSON.stringify(employeesArr));
+  };
+
   return (
     <Wrapper>
       <FormModal
@@ -184,28 +212,38 @@ const Dashboard = () => {
         }}
       >
         <div className="inner">
-          <p className="title">Add employee detail</p>
-          <form>
+          <p className="title">Add employee details</p>
+          <form onSubmit={(e) => handleSubmit(e)}>
             <div className="formGroup">
               <label>Name</label>
-              <input type="text" name="name" />
+              <input type="text" name="name" required />
             </div>
-            <div className="formGroup">
+            {/* <div className="formGroup">
               <label>Entity</label>
               <select name="entity">
                 <option>School</option>
               </select>
-            </div>
+            </div> */}
             <div className="formGroup">
               <label>Tax Payer's ID</label>
-              <input type="text" name="payerID" />
+              <input type="text" name="payerID" required />
             </div>
             <div className="formGroup">
               <label>Basic Salary</label>
-              <input type="text" name="basicSalary" />
+              <input type="text" name="basicSalary" required />
+            </div>
+            <div className="formGroup">
+              <label>Monthly tax</label>
+              <input type="text" name="monthlyTax" />
             </div>
 
-            <button type="submit" className="done">
+            <button
+              type="submit"
+              className="done"
+              onClick={() =>
+                document.querySelector('#formModal').classList.remove('open')
+              }
+            >
               Done
             </button>
           </form>
@@ -235,7 +273,7 @@ const Dashboard = () => {
               <span>add employee details</span>
             </button>
           </div>
-          <DataTable />
+          <DataTable employees={employees} />
         </div>
       </div>
     </Wrapper>

@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 // import theme from '../../theme';
 import options from '../../assets/dashboard/options.svg';
@@ -57,16 +57,17 @@ const tableHeaders = ['Name', `Tax Payer's ID`, 'Basic Salary', 'monthly tax'];
 
 const model = ['name', 'payerID', 'basicSalary', 'monthlyTax'];
 
-const tableBody = [
-  {
-    name: 'Jones Dermot',
-    payerID: '089778900078',
-    basicSalary: 'N500,000',
-    monthlyTax: 'N10,000'
-  }
-];
+const DataTable = ({ employees }) => {
+  const tableBody = [
+    {
+      name: 'Jones Dermot',
+      payerID: '089778900078',
+      basicSalary: 'N500,000',
+      monthlyTax: 'N25,000'
+    },
+    ...employees
+  ];
 
-const DataTable = () => {
   return (
     <Wrapper>
       <Table>
@@ -82,7 +83,7 @@ const DataTable = () => {
         </thead>
         <tbody>
           {tableBody.map((rowData) => (
-            <tr key={rowData.name}>
+            <tr key={rowData.payerID}>
               <td>
                 <input type="checkbox" />
               </td>
@@ -98,6 +99,10 @@ const DataTable = () => {
       </Table>
     </Wrapper>
   );
+};
+
+DataTable.propTypes = {
+  employees: PropTypes.array
 };
 
 export default DataTable;
