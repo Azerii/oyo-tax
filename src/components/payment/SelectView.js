@@ -6,7 +6,6 @@ import arrow_right from '../../assets/global/arrow_right.svg';
 // import chevron from '../../assets/global/chevron.svg';
 import Container from '../Container';
 import theme from '../../theme';
-import { useHistory } from 'react-router';
 
 const Wrapper = styled.div`
   width: 60vw;
@@ -111,8 +110,6 @@ const SelectView = ({
   // paymentMethod,
   payerId
 }) => {
-  const history = useHistory();
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -137,7 +134,7 @@ const SelectView = ({
       localStorage.setItem('payerDetails', JSON.stringify(payerDetails));
     }
 
-    history.push(target);
+    window.location.replace(target);
   };
 
   return (
