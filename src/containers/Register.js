@@ -5,17 +5,71 @@ import individual_card_icon from '../assets/register/individual_card_icon.svg';
 import company_card_icon from '../assets/register/company_card_icon.svg';
 import agency_card_icon from '../assets/register/agency_card_icon.svg';
 import arrow_right from '../assets/global/arrow_right.svg';
+import circleChecked from '../assets/payment/circleChecked.svg';
 import Layout from '../components/Layout';
 import Card from '../components/Card';
 import theme from '../theme';
 import FormView from '../components/FormView';
 import Grid from '../components/Grid';
+import PayerIdSuccess from '../components/PayerIdSuccess';
 
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  .registerSuccess {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: ${theme.colors.shadow};
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    opacity: 0;
+    pointer-events: none;
+
+    &.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .inner {
+      width: 30%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 3rem 0;
+      background-color: #ffffff;
+      border-radius: 0.5rem;
+
+      .prompt {
+        font-size: 1rem;
+      }
+
+      .payerId {
+        font-size: 2rem;
+        font-weight: 500;
+        margin: 1.5rem 0;
+      }
+
+      a {
+        display: block;
+        margin-top: 2rem;
+        color: ${theme.colors.primary};
+      }
+
+      img {
+        height: 5rem;
+        margin-bottom: 1.5rem;
+      }
+    }
+  }
 
   .caption {
     color: ${theme.colors.light};
@@ -329,10 +383,31 @@ const Register = () => {
       </Route>
 
       <Route exact path="/register/company/6">
+        <PayerIdSuccess
+          id="payerIdSuccess"
+          onClick={(e) => {
+            if (e.target.id === 'payerIdSuccess') {
+              e.target.classList.remove('open');
+            }
+          }}
+        >
+          <div className="inner">
+            <img src={circleChecked} alt="success" />
+            <p className="prompt">Your Tax Payer ID is:</p>
+            <p className="payerId">{Math.ceil(Math.random() * 1000000)}</p>
+            <a href="/login">Continue</a>
+          </div>
+        </PayerIdSuccess>
         <Layout bg>
           <FormView steps={steps.company} divider>
             <p className="title">{steps.company[5]}</p>
-            <form onSubmit={(e) => handleSubmit(e)} className="inner">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                document.querySelector('#payerIdSuccess').classList.add('open');
+              }}
+              className="inner"
+            >
               <Grid>
                 <p className="label">name</p>
                 <input type="text" name="name" />
@@ -452,10 +527,31 @@ const Register = () => {
       </Route>
 
       <Route exact path="/register/individual/3">
+        <PayerIdSuccess
+          id="payerIdSuccess"
+          onClick={(e) => {
+            if (e.target.id === 'payerIdSuccess') {
+              e.target.classList.remove('open');
+            }
+          }}
+        >
+          <div className="inner">
+            <img src={circleChecked} alt="success" />
+            <p className="prompt">Your Tax Payer ID is:</p>
+            <p className="payerId">{Math.ceil(Math.random() * 1000000)}</p>
+            <a href="/login">Continue</a>
+          </div>
+        </PayerIdSuccess>
         <Layout bg>
           <FormView steps={steps.individual} divider>
             <p className="title">{steps.individual[2]}</p>
-            <form onSubmit={(e) => handleSubmit(e)} className="inner">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                document.querySelector('#payerIdSuccess').classList.add('open');
+              }}
+              className="inner"
+            >
               <Grid>
                 <p className="label">telephone</p>
                 <input type="text" name="phone" />

@@ -6,13 +6,14 @@ import yellow_card_icon from '../assets/payment/yellow_card_icon.svg';
 import red_card_icon from '../assets/payment/red_card_icon.svg';
 import green_card_icon from '../assets/payment/green_card_icon.svg';
 import arrow_right from '../assets/global/arrow_right.svg';
-import paymentSuccess from '../assets/payment/paymentSuccess.svg';
+import circleChecked from '../assets/payment/circleChecked.svg';
 import theme from '../theme';
 import Card from '../components/Card';
 import Layout from '../components/Layout';
 import SelectView from '../components/payment/SelectView';
 import FormView from '../components/FormView';
 import Grid from '../components/Grid';
+import PayerIdSuccess from '../components/PayerIdSuccess';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -258,12 +259,13 @@ const Payment = () => {
           email,
           phone
         };
+      } else {
+        payerDetails = {
+          fullName,
+          email,
+          phone
+        };
       }
-      payerDetails = {
-        fullName,
-        email,
-        phone
-      };
 
       localStorage.setItem('payerDetails', JSON.stringify(payerDetails));
     }
@@ -368,7 +370,7 @@ const Payment = () => {
               }}
             >
               <div className="inner">
-                <img src={paymentSuccess} alt="" />
+                <img src={circleChecked} alt="" />
                 <p>Payment Successful</p>
               </div>
             </div>
@@ -480,6 +482,21 @@ const Payment = () => {
       </Route>
 
       <Route exact path="/payment/create-payer-id/2">
+        <PayerIdSuccess
+          id="payerIdSuccess"
+          onClick={(e) => {
+            if (e.target.id === 'payerIdSuccess') {
+              e.target.classList.remove('open');
+            }
+          }}
+        >
+          <div className="inner">
+            <img src={circleChecked} alt="success" />
+            <p className="prompt">Your Tax Payer ID is:</p>
+            <p className="payerId">{Math.ceil(Math.random() * 1000000)}</p>
+            <a href="/payment/provide-payer-id">Continue</a>
+          </div>
+        </PayerIdSuccess>
         <Layout bg>
           <Wrapper>
             <FormView
@@ -488,7 +505,12 @@ const Payment = () => {
               divider
             >
               <form
-                onSubmit={(e) => handleSubmit(e, '/payment/provide-payer-id')}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  document
+                    .querySelector('#payerIdSuccess')
+                    .classList.add('open');
+                }}
                 className="inner"
               >
                 <Grid gridColumn="1/6">

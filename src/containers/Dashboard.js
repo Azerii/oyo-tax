@@ -5,7 +5,7 @@ import theme from '../theme';
 import dummy from '../assets/dashboard/dummy.svg';
 import searchIcon from '../assets/dashboard/searchIcon.svg';
 import plusIcon from '../assets/dashboard/plusIcon.svg';
-import paymentSuccess from '../assets/payment/paymentSuccess.svg';
+import circleChecked from '../assets/payment/circleChecked.svg';
 import DataTable from '../components/dashboard/DataTable';
 import { Route } from 'react-router';
 
@@ -322,7 +322,7 @@ const Dashboard = () => {
         }}
       >
         <div className="inner">
-          <img src={paymentSuccess} alt="" />
+          <img src={circleChecked} alt="" />
           <p>Payment Successful</p>
         </div>
       </div>
