@@ -5,12 +5,55 @@ import theme from '../theme';
 import dummy from '../assets/dashboard/dummy.svg';
 import searchIcon from '../assets/dashboard/searchIcon.svg';
 import plusIcon from '../assets/dashboard/plusIcon.svg';
+import paymentSuccess from '../assets/payment/paymentSuccess.svg';
 import DataTable from '../components/dashboard/DataTable';
+import { Route } from 'react-router';
 
 const Wrapper = styled.div`
   width: 100vw;
   display: flex;
   background-color: #f2f2f2;
+
+  .paymentSuccess {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: ${theme.colors.shadow};
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+
+    &.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .inner {
+      width: 30%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 3rem 0;
+      background-color: #ffffff;
+      border-radius: 0.5rem;
+
+      p {
+        color: ${theme.colors.primary};
+      }
+
+      img {
+        height: 5rem;
+        margin-bottom: 1.5rem;
+      }
+    }
+  }
 
   .dashContent {
     width: 80%;
@@ -20,36 +63,53 @@ const Wrapper = styled.div`
     > .inner {
       padding: 4rem 3rem;
 
-      .actionBtns {
+      .actionBtnsWrapper {
         display: flex;
-        justify-content: flex-end;
-        margin-bottom: 2.5rem;
+        justify-content: space-between;
 
-        button {
-          display: flex;
-          align-items: center;
-          border-radius: 0.3rem;
-          padding: 1rem 2rem;
-          font-size: 1rem;
-          text-transform: capitalize;
+        &.noTitle {
+          justify-content: flex-end;
+        }
 
-          &.makePayment {
-            color: #8f8e8e;
-            background-color: #c6c6c6;
-            margin-right: 3rem;
+        .title {
+          font-size: 1.25rem;
 
-            &.active {
-              color: #ffffff;
-              background-color: ${theme.colors.primary};
-            }
+          span {
+            color: #948f8f;
           }
+        }
 
-          &.add {
-            color: #ffffff;
-            background-color: ${theme.colors.green};
+        .actionBtns {
+          display: flex;
+          justify-content: flex-end;
+          margin-bottom: 2.5rem;
 
-            img {
-              margin-right: 0.25rem;
+          button {
+            display: flex;
+            align-items: center;
+            border-radius: 0.3rem;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            text-transform: capitalize;
+
+            &.makePayment {
+              color: #8f8e8e;
+              background-color: #c6c6c6;
+              margin-right: 3rem;
+
+              &.active {
+                color: #ffffff;
+                background-color: ${theme.colors.primary};
+              }
+            }
+
+            &.add {
+              color: #ffffff;
+              background-color: ${theme.colors.green};
+
+              img {
+                margin-right: 0.25rem;
+              }
             }
           }
         }
@@ -176,7 +236,12 @@ const Dashboard = () => {
   const [employees, setEmployees] = useState(
     localStorage.employees ? JSON.parse(localStorage.employees) : []
   );
-  const handleSubmit = (e) => {
+  const [entities, setEntities] = useState(
+    localStorage.entities ? JSON.parse(localStorage.entities) : []
+  );
+  const [selected, setSelected] = useState(0);
+
+  const handleSubmitEmployees = (e) => {
     e.preventDefault();
 
     let employeesArr;
@@ -201,54 +266,66 @@ const Dashboard = () => {
     localStorage.setItem('employees', JSON.stringify(employeesArr));
   };
 
+  const handleSubmitEntities = (e) => {
+    e.preventDefault();
+
+    let entitiesArr;
+
+    const entityDetails = {
+      entity: document.querySelector('select[name="entity"]').value || 'NIL',
+      payerID: document.querySelector('input[name="payerID"]').value || 'NIL'
+    };
+
+    if (localStorage.entities) {
+      entitiesArr = JSON.parse(localStorage.entities);
+    } else {
+      entitiesArr = [];
+    }
+
+    entitiesArr.push(entityDetails);
+    setEntities(entitiesArr);
+    localStorage.setItem('entities', JSON.stringify(entitiesArr));
+  };
+
+  const handleCheckboxChange = (e) => {
+    const currentChecked = document.querySelectorAll(
+      'input[type="checkbox"]:checked'
+    );
+    // const allCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+    // const checkAllBox = allCheckboxes[0];
+
+    setSelected(currentChecked.length);
+
+    if (!e.target.checked) {
+      if (document.querySelectorAll('input[type="checkbox"]')[0].checked) {
+        document.querySelectorAll('input[type="checkbox"]')[0].click();
+      }
+      // if (
+      //   currentChecked.length === allCheckboxes.length - 1 &&
+      //   !checkAllBox.checked
+      // ) {
+      //   console.log(checkAllBox, currentChecked.length);
+      //   checkAllBox.click();
+      // }
+    }
+  };
+
   return (
     <Wrapper>
-      <FormModal
-        id="formModal"
+      <div
+        id="paymentSuccess"
+        className="paymentSuccess"
         onClick={(e) => {
-          if (e.target.id === 'formModal') {
+          if (e.target.id === 'paymentSuccess') {
             e.target.classList.remove('open');
           }
         }}
       >
         <div className="inner">
-          <p className="title">Add employee details</p>
-          <form onSubmit={(e) => handleSubmit(e)}>
-            <div className="formGroup">
-              <label>Name</label>
-              <input type="text" name="name" required />
-            </div>
-            {/* <div className="formGroup">
-              <label>Entity</label>
-              <select name="entity">
-                <option>School</option>
-              </select>
-            </div> */}
-            <div className="formGroup">
-              <label>Tax Payer's ID</label>
-              <input type="text" name="payerID" required />
-            </div>
-            <div className="formGroup">
-              <label>Basic Salary</label>
-              <input type="text" name="basicSalary" required />
-            </div>
-            <div className="formGroup">
-              <label>Monthly tax</label>
-              <input type="text" name="monthlyTax" />
-            </div>
-
-            <button
-              type="submit"
-              className="done"
-              onClick={() =>
-                document.querySelector('#formModal').classList.remove('open')
-              }
-            >
-              Done
-            </button>
-          </form>
+          <img src={paymentSuccess} alt="" />
+          <p>Payment Successful</p>
         </div>
-      </FormModal>
+      </div>
       <Sidebar />
       <div className="dashContent">
         <Header>
@@ -260,21 +337,156 @@ const Dashboard = () => {
             <img className="avatar" src={dummy} alt="" />
           </div>
         </Header>
-        <div className="inner">
-          <div className="actionBtns">
-            <button className="makePayment">make payment</button>
-            <button
-              className="add"
-              onClick={() =>
-                document.querySelector('#formModal').classList.add('open')
+
+        {/* Company */}
+        <Route path="/dashboard/company">
+          <FormModal
+            id="formModal"
+            onClick={(e) => {
+              if (e.target.id === 'formModal') {
+                e.target.classList.remove('open');
               }
-            >
-              <img src={plusIcon} alt="" />
-              <span>add employee details</span>
-            </button>
+            }}
+          >
+            <div className="inner">
+              <p className="title">Add employee details</p>
+              <form onSubmit={(e) => handleSubmitEmployees(e)}>
+                <div className="formGroup">
+                  <label>Name</label>
+                  <input type="text" name="name" required />
+                </div>
+                <div className="formGroup">
+                  <label>Tax Payer's ID</label>
+                  <input type="text" name="payerID" required />
+                </div>
+                <div className="formGroup">
+                  <label>Basic Salary</label>
+                  <input type="text" name="basicSalary" required />
+                </div>
+                <div className="formGroup">
+                  <label>Monthly tax</label>
+                  <input type="text" name="monthlyTax" />
+                </div>
+
+                <button
+                  type="submit"
+                  className="done"
+                  onClick={() =>
+                    document
+                      .querySelector('#formModal')
+                      .classList.remove('open')
+                  }
+                >
+                  Done
+                </button>
+              </form>
+            </div>
+          </FormModal>
+          <div className="inner">
+            <div className="actionBtnsWrapper noTitle">
+              <div className="actionBtns">
+                <button
+                  className={`makePayment ${selected ? 'active' : ''}`}
+                  disabled={selected ? false : true}
+                  onClick={() =>
+                    document
+                      .querySelector('#paymentSuccess')
+                      .classList.add('open')
+                  }
+                >
+                  make payment
+                </button>
+                <button
+                  className="add"
+                  onClick={() =>
+                    document.querySelector('#formModal').classList.add('open')
+                  }
+                >
+                  <img src={plusIcon} alt="" />
+                  <span>add employee details</span>
+                </button>
+              </div>
+            </div>
+            <DataTable
+              employees={employees}
+              handleCheckboxChange={handleCheckboxChange}
+            />
           </div>
-          <DataTable employees={employees} />
-        </div>
+        </Route>
+
+        {/* Agency */}
+        <Route path="/dashboard/agency">
+          <FormModal
+            id="formModal"
+            onClick={(e) => {
+              if (e.target.id === 'formModal') {
+                e.target.classList.remove('open');
+              }
+            }}
+          >
+            <div className="inner">
+              <p className="title">Add entity</p>
+              <form onSubmit={(e) => handleSubmitEntities(e)}>
+                <div className="formGroup">
+                  <label>Entity</label>
+                  <select name="entity">
+                    <option value="School">School</option>
+                    <option value="Hospital">Hospital</option>
+                  </select>
+                </div>
+                <div className="formGroup">
+                  <label>Tax Payer's ID</label>
+                  <input type="text" name="payerID" required />
+                </div>
+
+                <button
+                  type="submit"
+                  className="done"
+                  onClick={() =>
+                    document
+                      .querySelector('#formModal')
+                      .classList.remove('open')
+                  }
+                >
+                  Done
+                </button>
+              </form>
+            </div>
+          </FormModal>
+          <div className="inner">
+            <div className="actionBtnsWrapper">
+              <p className="title">
+                Entities <span>({entities.length + 1})</span>
+              </p>
+              <div className="actionBtns">
+                <button
+                  className={`makePayment ${selected ? 'active' : ''}`}
+                  disabled={selected ? false : true}
+                  onClick={() =>
+                    document
+                      .querySelector('#paymentSuccess')
+                      .classList.add('open')
+                  }
+                >
+                  make payment
+                </button>
+                <button
+                  className="add"
+                  onClick={() =>
+                    document.querySelector('#formModal').classList.add('open')
+                  }
+                >
+                  <img src={plusIcon} alt="" />
+                  <span>add entity</span>
+                </button>
+              </div>
+            </div>
+            <DataTable
+              entities={entities}
+              handleCheckboxChange={handleCheckboxChange}
+            />
+          </div>
+        </Route>
       </div>
     </Wrapper>
   );

@@ -85,7 +85,7 @@ const Sidebar = () => {
         <img src={logo} alt="" />
       </Header>
       <div className="navWrapper">
-        <NavItem href="/dashboard">
+        <NavItem href={window.location.href} className="active">
           <div className="iconWrapper">
             <img src={dashboardIcon} alt="" />
           </div>
@@ -93,7 +93,7 @@ const Sidebar = () => {
             <p>Employees</p>
           </div>
         </NavItem>
-        <NavItem href="/dashboard">
+        <NavItem href={window.location.href}>
           <div className="iconWrapper">
             <img src={historyIcon} alt="" />
           </div>

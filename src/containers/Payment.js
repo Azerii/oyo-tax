@@ -78,6 +78,7 @@ const PaymentPreview = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     overflow: auto;
     opacity: 0;
     pointer-events: none;
@@ -107,7 +108,7 @@ const PaymentPreview = styled.div`
     }
   }
 
-  .inner {
+  > .inner {
     width: 60%;
     margin: auto;
     padding: 2rem 0;

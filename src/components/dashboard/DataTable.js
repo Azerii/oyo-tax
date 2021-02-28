@@ -46,19 +46,32 @@ const Table = styled.table`
     padding-bottom: 1rem;
     white-space: nowrap;
     font-size: 0.8rem;
+    position: relative;
 
     .options {
       cursor: pointer;
+
+      &.entity {
+        position: absolute;
+        right: 1.5rem;
+      }
     }
   }
 `;
 
-const tableHeaders = ['Name', `Tax Payer's ID`, 'Basic Salary', 'monthly tax'];
+const tableHeadersEmployees = [
+  'Name',
+  `Tax Payer's ID`,
+  'Basic Salary',
+  'monthly tax'
+];
+// const tableHeadersEntities = ['Entity', `Tax Payer's ID`];
 
-const model = ['name', 'payerID', 'basicSalary', 'monthlyTax'];
+const modelEmployees = ['name', 'payerID', 'basicSalary', 'monthlyTax'];
+// const modelEntities = ['entity', 'payerID'];
 
-const DataTable = ({ employees }) => {
-  const tableBody = [
+const DataTable = ({ employees, entities, handleCheckboxChange }) => {
+  const tableBodyEmployees = employees && [
     {
       name: 'Jones Dermot',
       payerID: '089778900078',
@@ -68,41 +81,100 @@ const DataTable = ({ employees }) => {
     ...employees
   ];
 
+  const tableBodyEntities = entities && [
+    {
+      entity: 'School',
+      payerID: '325453246'
+    },
+    ...entities
+  ];
+
+  const checkAll = (e) => {
+    if (e.target.checked) {
+      document
+        .querySelectorAll('input[type="checkbox"]')
+        .forEach((checkbox) => {
+          if (!checkbox.checked) {
+            checkbox.click();
+          }
+        });
+    }
+  };
+
   return (
     <Wrapper>
-      <Table>
-        <thead>
-          <tr>
-            <th>
-              <input type="checkbox" />
-            </th>
-            {tableHeaders.map((header) => (
-              <th key={header}>{header}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {tableBody.map((rowData) => (
-            <tr key={rowData.payerID}>
-              <td>
-                <input type="checkbox" />
-              </td>
-              {model.map((item) => (
-                <td key={item}>{rowData[item]}</td>
+      {!entities && (
+        <Table>
+          <thead>
+            <tr>
+              <th>
+                <input type="checkbox" onChange={checkAll} />
+              </th>
+              {tableHeadersEmployees.map((header) => (
+                <th key={header}>{header}</th>
               ))}
-              <td>
-                <img className="options" src={options} alt="" />
-              </td>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {tableBodyEmployees.map((rowData) => (
+              <tr key={rowData.payerID}>
+                <td>
+                  <input type="checkbox" onChange={handleCheckboxChange} />
+                </td>
+                {modelEmployees.map((item) => (
+                  <td key={item}>{rowData[item]}</td>
+                ))}
+                <td>
+                  <img className="options" src={options} alt="" />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      )}
+      {entities && (
+        <Table>
+          <thead>
+            <tr>
+              <th>
+                <input
+                  type="checkbox"
+                  style={{ marginRight: '1.5rem' }}
+                  onChange={checkAll}
+                />
+                <span>entity</span>
+              </th>
+              <th>Tax Payer's ID</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tableBodyEntities.map((rowData) => (
+              <tr key={rowData.payerID}>
+                <td>
+                  <input
+                    type="checkbox"
+                    style={{ marginRight: '1.5rem' }}
+                    onChange={handleCheckboxChange}
+                  />
+                  <span>{rowData['entity']}</span>
+                </td>
+                <td>
+                  <span>{rowData['payerID']}</span>
+                  <img className="options entity" src={options} alt="" />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      )}
     </Wrapper>
   );
 };
 
 DataTable.propTypes = {
-  employees: PropTypes.array
+  employees: PropTypes.array,
+  entities: PropTypes.array,
+  handleCheckboxChange: PropTypes.func
 };
 
 export default DataTable;

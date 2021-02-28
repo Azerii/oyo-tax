@@ -103,7 +103,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    window.location.replace('/dashboard');
+    window.location.replace('/dashboard/company');
   };
 
   return (
