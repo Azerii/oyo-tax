@@ -229,7 +229,7 @@ const dummyPreviewDetails = [
     value:
       (localStorage.payerDetails &&
         JSON.parse(localStorage.payerDetails).payerId) ||
-      '8897364'
+      '0000001'
   }
 ];
 
