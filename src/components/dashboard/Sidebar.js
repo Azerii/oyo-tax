@@ -82,7 +82,9 @@ const Sidebar = () => {
   return (
     <Wrapper>
       <Header>
-        <img src={logo} alt="" />
+        <a href="/">
+          <img src={logo} alt="" />
+        </a>
       </Header>
       <div className="navWrapper">
         <NavItem href={window.location.href} className="active">

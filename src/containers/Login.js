@@ -103,7 +103,15 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    window.location.replace('/dashboard/company');
+    const password = document.querySelector('input[name="password"]');
+
+    if (password) {
+      if (password.value === 'odinaka') {
+        window.location.replace('/dashboard/company');
+      } else {
+        alert('Invalid credentails. Check the the password is correct');
+      }
+    }
   };
 
   return (

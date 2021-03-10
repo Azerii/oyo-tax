@@ -240,6 +240,8 @@ const Dashboard = () => {
     localStorage.entities ? JSON.parse(localStorage.entities) : []
   );
   const [selected, setSelected] = useState(0);
+  const [basicSalary, setBasicSalary] = useState('');
+  const [monthlyTax, setMonthlyTax] = useState('');
 
   const handleSubmitEmployees = (e) => {
     e.preventDefault();
@@ -310,6 +312,16 @@ const Dashboard = () => {
     }
   };
 
+  const handleSalaryChange = (e) => {
+    console.log(e.target.value);
+    const val = Number(e.target.value);
+
+    if (val) {
+      setBasicSalary(val);
+      setMonthlyTax((val * 5) / 100);
+    }
+  };
+
   return (
     <Wrapper>
       <div
@@ -361,11 +373,22 @@ const Dashboard = () => {
                 </div>
                 <div className="formGroup">
                   <label>Basic Salary</label>
-                  <input type="text" name="basicSalary" required />
+                  <input
+                    type="text"
+                    name="basicSalary"
+                    value={basicSalary}
+                    onChange={handleSalaryChange}
+                    required
+                  />
                 </div>
                 <div className="formGroup">
                   <label>Monthly tax</label>
-                  <input type="text" name="monthlyTax" />
+                  <input
+                    type="text"
+                    name="monthlyTax"
+                    value={monthlyTax}
+                    readOnly
+                  />
                 </div>
 
                 <button

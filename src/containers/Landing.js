@@ -57,9 +57,11 @@ const Caption = styled.div`
   .captionMedia {
     postion: relative;
     width: 45%;
-    height: 0;
-    padding-top: 35%;
     background-color: #333333;
+
+    iframe {
+      min-height: 50vh;
+    }
   }
 `;
 
@@ -86,7 +88,16 @@ const Landing = () => {
               Pay Your Tax
             </a>
           </div>
-          <div className="captionMedia"></div>
+          <div className="captionMedia">
+            <iframe
+              title="Introduction"
+              width="100%"
+              src="https://player.vimeo.com/video/521917133"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </div>
         </Caption>
       </Container>
     </>
