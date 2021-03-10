@@ -182,6 +182,7 @@ const SelectView = ({
                     type="text"
                     name={inputName}
                     placeholder={`e.g 7887565`}
+                    required
                   />
                 </div>
               )}
@@ -198,7 +199,7 @@ const SelectView = ({
               )}
               {payerId && (
                 <div className="inputWrapper">
-                  <input type="password" name="password" />
+                  <input type="password" name="password" required />
                 </div>
               )}
               <div className="btnWrapper">
