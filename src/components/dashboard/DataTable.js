@@ -75,8 +75,8 @@ const DataTable = ({ employees, entities, handleCheckboxChange }) => {
     {
       name: 'Jones Dermot',
       payerID: '089778900078',
-      basicSalary: 'N500,000',
-      monthlyTax: 'N25,000'
+      basicSalary: '500000',
+      monthlyTax: '25000'
     },
     ...employees
   ];
