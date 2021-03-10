@@ -119,6 +119,8 @@ const SelectView = ({
 
     const payerId = payerIdInput ? payerIdInput.value : '88975655';
 
+    const password = document.querySelector('input[name="password"]');
+
     if (payerIdInput) {
       if (localStorage.payerDetails) {
         const detailsObj = JSON.parse(localStorage.payerDetails);
@@ -134,7 +136,15 @@ const SelectView = ({
       localStorage.setItem('payerDetails', JSON.stringify(payerDetails));
     }
 
-    window.location.replace(target);
+    if (password) {
+      if (password.value === 'odinaka') {
+        window.location.replace(target);
+      } else {
+        alert('Invalid credentails. Check the the password is correct');
+      }
+    } else {
+      window.location.replace(target);
+    }
   };
 
   return (
@@ -180,6 +190,16 @@ const SelectView = ({
                   If you don't have an ID number,{' '}
                   <a href="/payment/create-payer-id/1">create here</a>
                 </p>
+              )}
+              {payerId && (
+                <p className="inputLabel" style={{ marginTop: '1.5rem' }}>
+                  Password
+                </p>
+              )}
+              {payerId && (
+                <div className="inputWrapper">
+                  <input type="password" name="password" />
+                </div>
               )}
               <div className="btnWrapper">
                 {payerId ? (
