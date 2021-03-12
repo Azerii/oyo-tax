@@ -80,9 +80,8 @@ const Landing = () => {
               and let’s grow together
             </p>
             <p className="subheading">
-              Fugiat anim adipisicing sint adipisicing. Dolore eiusmod ut
-              aliquip cupidatat eu nulla. Sint sunt non aliquip tempor ipsum
-              reprehenderit aliquip.
+              Making payment of tax and other levies easy <br />
+              and seamless for residents of Oyo State.
             </p>
             <a href="/payment" className="pay">
               Pay Your Tax
